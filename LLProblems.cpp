@@ -120,6 +120,19 @@ public:
         }
         tempNode->next = loopNode;
     }
+
+    void reverseLL() {
+        Node<T>* prev = nullptr;
+        Node<T>* current = head;
+
+        while (current) {
+            Node<T>* tempNode = current->next;
+            current->next = prev;
+            prev = current;
+            current = tempNode;
+        }
+        head = prev;
+    }
 };
 
 
@@ -140,7 +153,7 @@ void problem1() {
 }
 
 // Question: Find whether there is any loop in the linked list or not.
-// Solution: Floyd’s cycle finding algorithm or Hare-Tortoise algorithm is a pointer algorithm that 
+// Solution: Floydâ€™s cycle finding algorithm or Hare-Tortoise algorithm is a pointer algorithm that 
 // uses only two pointers, moving through the sequence at different speeds. This algorithm is used to 
 // find a loop in a linked list. It uses two pointers one moving twice as fast as the other one. 
 // The faster one is called the fast pointer and the other one is called the slow pointer.
@@ -156,8 +169,22 @@ void problem2() {
     ll.findLoops();
 }
 
+
+// Question: Reverse a singly linked list
+void problem3() {
+    LinkedList<int> ll;
+    ll.insert(5);
+    ll.insert(4);
+    ll.insert(3);
+    ll.insert(2);
+    ll.insert(1);
+    ll.display();
+    ll.reverseLL();
+    ll.display();
+}
+
 int main() {
     cout << "### Start of Program ###" << endl;
-    problem2();
+    problem3();
     return 0;
 }
