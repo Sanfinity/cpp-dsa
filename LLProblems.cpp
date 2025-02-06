@@ -7,6 +7,7 @@
 //}
 
 #include <iostream>
+#include <stack>
 using namespace std;
 
 template <typename T>
@@ -183,8 +184,56 @@ void problem3() {
     ll.display();
 }
 
+// Function to find intersection using stacks
+void findIntersection(Node<int>* head1, Node<int>* head2) {
+    Node<int>* tempNode = head1;
+    stack<Node<int>*> list1;
+    while (tempNode) {
+        list1.push(tempNode);
+        tempNode = tempNode->next;
+    }
+    tempNode = head2;
+    stack<Node<int>*> list2;
+    while (tempNode) {
+        list2.push(tempNode);
+        tempNode = tempNode->next;
+    }
+    tempNode = nullptr;
+    while (!list1.empty() && !list2.empty()) {
+        auto list1Node = list1.top();
+        auto list2Node = list2.top();
+        if (list1Node != list2Node && tempNode)
+        {
+            cout << "The Intersection is " << tempNode->data << endl;
+            return;
+        }
+        tempNode = list1Node;
+        list1.pop();
+        list2.pop();
+    }
+}
+
+// Question: Find the intersection point of two singly linked lists using stacks
+// Solution: Using two stack approach
+void problem4() {
+    Node<int>* common = new Node<int>(6);
+    common->next = new Node<int>(7);
+    common->next->next = new Node<int>(8);
+
+    Node<int>* head1 = new Node<int>(1);
+    head1->next = new Node<int>(2);
+    head1->next->next = new Node<int>(3);
+    head1->next->next->next = common;
+
+    Node<int>* head2 = new Node<int>(4);
+    head2->next = new Node<int>(5);
+    head2->next->next = common;
+
+    findIntersection(head1, head2);
+}
+
 int main() {
     cout << "### Start of Program ###" << endl;
-    problem3();
+    problem4();
     return 0;
 }
