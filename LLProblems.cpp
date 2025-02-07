@@ -213,6 +213,43 @@ void findIntersection(Node<int>* head1, Node<int>* head2) {
     }
 }
 
+// Time Complexity = O(max(m,n))
+void findIntersectionImprovedPerformance(Node<int>* head1, Node<int>* head2) {
+    int lenList1{ 0 }, lenList2{ 0 };
+    Node<int>* tempNode = head1;
+    while (tempNode) {
+        lenList1++;
+        tempNode = tempNode->next;
+    }
+    tempNode = head2;
+    while (tempNode) {
+        lenList2++;
+        tempNode = tempNode->next;
+    }
+    auto diff = abs(lenList1 - lenList2);
+
+    Node<int>* first = head1;
+    Node<int>* second = head2;
+
+    if (lenList1 > lenList2) {
+        for (int i = 0; i < diff;i++) {
+            first = first->next;
+        }
+    }
+    else {
+        for (int i = 0; i < diff;i++) {
+            second = second->next;
+        }
+    }
+
+    while (first && second && first->data != second->data) {
+        first = first->next;
+        second = second->next;
+    }
+
+    cout << "The intersecting element is " << first->data << endl;
+}
+
 // Question: Find the intersection point of two singly linked lists using stacks
 // Solution: Using two stack approach
 void problem4() {
@@ -230,7 +267,9 @@ void problem4() {
     head2->next->next = common;
 
     findIntersection(head1, head2);
+    findIntersectionImprovedPerformance(head1, head2);
 }
+
 
 int main() {
     cout << "### Start of Program ###" << endl;
