@@ -25,6 +25,10 @@ private:
 public:
     LinkedList() : head(nullptr) {}
 
+    Node<T>* getHead() {
+        return head;
+    }
+
     void insert(T inputData) {
         Node<T>* newNode = new Node<T>(inputData);
         if (!head)
@@ -50,6 +54,14 @@ public:
             tempNode = tempNode->next;
         }
         cout << "]" << endl;
+    }
+
+    void printFromEnd(Node<T>* node) {
+        if (!node) {
+            return;
+        }
+        printFromEnd(node->next);
+        cout << node->data << " ";
     }
 
     void findNthNodeFromEnd(int n) {
@@ -330,8 +342,32 @@ void problem5() {
     ll.findMiddleTwoPointer();
 }
 
+// Question: Print the LL from the end
+// Solution: Using recursion
+void problem6() {
+    LinkedList<int> ll;
+    ll.insert(8);
+    ll.insert(7);
+    ll.insert(6);
+    ll.insert(5);
+    ll.insert(4);
+    ll.insert(3);
+    ll.insert(2);
+    ll.insert(1);
+    ll.display();
+    ll.printFromEnd(ll.getHead());
+    cout << endl;
+}
+
+/*****************************************************/
+/*****************************************************/
+
 int main() {
     cout << "### Start of Program ###" << endl;
-    problem5();
+    problem6();
+    cout << "### End of Program ###" << endl;
     return 0;
 }
+
+/*****************************************************/
+/*****************************************************/
