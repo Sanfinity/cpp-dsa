@@ -134,6 +134,49 @@ public:
         }
         head = prev;
     }
+
+    void findMiddleSimple() {
+        Node<T>* tempNode = head;
+        auto len = 0;
+        while (tempNode) {
+            tempNode = tempNode->next;
+            len++;
+        }
+        tempNode = head;
+        for (int i = 0; i < len / 2 - 1; i++) {
+            tempNode = tempNode->next;
+        }
+        if (!tempNode || !tempNode->next) {
+            cout << "Error occured!" << endl;
+            return;
+        }
+        if (len % 2 == 0) {
+            cout << "Middle Elements is " << tempNode->data << " and " << tempNode->next->data << endl;
+        }
+        else {
+            cout << "Middle Elements is " << tempNode->next->data << endl;
+        }
+    }
+
+    void findMiddleTwoPointer() {
+        Node<T>* fast = head;
+        Node<T>* slow = head;
+        bool isEven{ false };
+        while (fast->next) {
+            if (!fast->next->next) {
+                isEven = true;
+                break;
+            }
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        if (isEven) {
+            cout << "Middle Elements is " << slow->data << " and " << slow->next->data << endl;
+        }
+        else {
+            cout << "Middle Elements is " << slow->data << endl;
+        }
+    }
 };
 
 
@@ -251,7 +294,7 @@ void findIntersectionImprovedPerformance(Node<int>* head1, Node<int>* head2) {
 }
 
 // Question: Find the intersection point of two singly linked lists using stacks
-// Solution: Using two stack approach
+// Solution: Using two stack & two pointer approach
 void problem4() {
     Node<int>* common = new Node<int>(6);
     common->next = new Node<int>(7);
@@ -270,9 +313,25 @@ void problem4() {
     findIntersectionImprovedPerformance(head1, head2);
 }
 
+// Question: Find the middle element of the list
+// Solution: Using simple O(n + n/2) way and two pointer O(n) way
+void problem5() {
+    LinkedList<int> ll;
+    //ll.insert(8);
+    ll.insert(7);
+    ll.insert(6);
+    ll.insert(5);
+    ll.insert(4);
+    ll.insert(3);
+    ll.insert(2);
+    ll.insert(1);
+    ll.display();
+    ll.findMiddleSimple();
+    ll.findMiddleTwoPointer();
+}
 
 int main() {
     cout << "### Start of Program ###" << endl;
-    problem4();
+    problem5();
     return 0;
 }
