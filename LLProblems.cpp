@@ -189,6 +189,41 @@ public:
             cout << "Middle Elements is " << slow->data << endl;
         }
     }
+
+    void mergeSortedLists(Node<T>* head1, Node<T>* head2) {
+        Node<T>* dummyNode = new Node<int>(-1);
+        Node<T>* tempNode = dummyNode;
+        cout << "Merged Sorted List: ";
+
+        while (head1 && head2) {
+            if (head1->data <= head2->data) {
+                tempNode->next = head1;
+                head1 = head1->next;
+            }
+            else {
+                tempNode->next = head2;
+                head2 = head2->next;
+            }
+            tempNode = tempNode->next;
+            cout << tempNode->data << " ";
+        }
+
+        if (head1) {
+            tempNode->next = head1;
+        }
+        if (head2) {
+            tempNode->next = head2;
+        }
+        cout << tempNode->next->data << " " << endl;
+    }
+
+    void reverseInPairs() {
+        auto tempNode = head;
+        while (tempNode->next) {
+            cout << tempNode->data << " ";
+        }
+        cout << endl;
+    }
 };
 
 
@@ -359,13 +394,48 @@ void problem6() {
     cout << endl;
 }
 
+// Question: Given two sorted linked lists, how to merge them into the third list in sorted order
+// Solution: using pointer comparison
+void problem7() {
+    LinkedList<int> ll;
+    // Creating first sorted linked list: 1 -> 3 -> 5
+    Node<int>* head1 = new Node<int>(1);
+    head1->next = new Node<int>(3);
+    head1->next->next = new Node<int>(5);
+
+    // Creating second sorted linked list: 2 -> 4 -> 6
+    Node<int>* head2 = new Node<int>(2);
+    head2->next = new Node<int>(4);
+    head2->next->next = new Node<int>(6);
+
+    // Merging the two sorted lists
+    ll.mergeSortedLists(head1, head2);
+}
+
+// Question: Reverse linked list in pairs
+// Solution: using simple pointer iterations
+void problem8() {
+    LinkedList<int> ll;
+    //ll.insert(8);
+    ll.insert(7);
+    ll.insert(6);
+    ll.insert(5);
+    ll.insert(4);
+    ll.insert(3);
+    ll.insert(2);
+    ll.insert(1);
+    ll.display();
+    ll.reverseInPairs();
+    ll.display();
+}
+
 /*****************************************************/
 /*****************************************************/
 
 int main() {
-    cout << "### Start of Program ###" << endl;
-    problem6();
-    cout << "### End of Program ###" << endl;
+    cout << "###### Start of Program ######\n" << endl;
+    problem8();
+    cout << "\n######  End of Program  ######" << endl;
     return 0;
 }
 
