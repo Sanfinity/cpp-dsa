@@ -217,12 +217,82 @@ public:
         cout << tempNode->next->data << " " << endl;
     }
 
-    void reverseInPairs() {
-        auto tempNode = head;
-        while (tempNode->next) {
-            cout << tempNode->data << " ";
+    void printCommonElements(Node<T>* head1, Node<T>* head2) {
+        while (head1 && head2) {
+            if (head1->data < head2->data) {
+                head1 = head1->next;
+            }
+            else if (head1->data == head2->data) {
+                cout << head1->data << endl;
+                head1 = head1->next;
+                head2 = head2->next;
+            }
+            else {
+                head2 = head2->next;
+            }
         }
-        cout << endl;
+    }
+
+    void reverseInPairs() {
+        Node<T>* prev = NULL;
+        Node<T>* current = head;
+        head = head->next;
+
+        while (current && current->next) {
+            auto nextNode = current->next;
+            current->next = nextNode->next;
+            nextNode->next = current;
+            if (prev) {
+                prev->next = nextNode;
+            }
+            prev = current;
+            current = current->next;
+        }
+    }
+
+    Node<T>* reverseList(Node<T>* head) {
+        if (!head) {
+            return nullptr;
+        }
+        Node<T>* prev = nullptr;
+        Node<T>* tempNode = head;
+        while (tempNode) {
+            auto nextNode = tempNode->next;
+            tempNode->next = prev;
+            prev = tempNode;
+            tempNode = nextNode;
+        }
+        return prev;
+    }
+
+    void checkPalindrome() {
+        auto fast = head;
+        auto slow = head;
+        bool isOdd{ false };
+        while (fast) {
+            if (!fast->next) {
+                isOdd = true;
+                break;
+            }
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        auto secondHead = reverseList(slow);
+        auto firstHalf = head;
+        auto secondHalf = secondHead;
+        bool isPal = true;
+        while (secondHalf) {
+            if (secondHalf->data != firstHalf->data) {
+                isPal = false;
+                break;
+            }
+            secondHalf = secondHalf->next;
+            firstHalf = firstHalf->next;
+        }
+
+        if (isPal) {
+            cout << "The given linked list is a palindrome!" << endl;
+        }
     }
 };
 
@@ -429,12 +499,65 @@ void problem8() {
     ll.display();
 }
 
+// Question: Given two sorted linked lists, print the common elements in it
+// Solution: using pointer comparison
+void problem9() {
+    LinkedList<int> ll;
+    // Creating first sorted linked list: 1 -> 3 -> 5 -> 8
+    Node<int>* head1 = new Node<int>(1);
+    head1->next = new Node<int>(3);
+    head1->next->next = new Node<int>(5);
+    head1->next->next->next = new Node<int>(8);
+
+    // Creating second sorted linked list: 1 -> 2 -> 5 -> 6
+    Node<int>* head2 = new Node<int>(1);
+    head2->next = new Node<int>(2);
+    head2->next->next = new Node<int>(5);
+    head2->next->next->next = new Node<int>(6);
+
+    // Merging the two sorted lists
+    ll.printCommonElements(head1, head2);
+}
+
+// Question: Check if the linked list is palindrome or not
+// Solution: Split and compare method
+void problem10() {
+    LinkedList<int> ll;
+    ll.insert(1);
+    ll.insert(2);
+    ll.insert(3);
+    ll.insert(4);
+    ll.insert(4);
+    ll.insert(3);
+    ll.insert(2);
+    ll.insert(1);
+    ll.display();
+    ll.checkPalindrome();
+    //ll.display();
+}
+
+// Question: For a given k value (k>0) reverse blocks of k nodes in a list.
+// Solution: Using the same swapping nodes in a linked list concept
+void problem11() {
+    LinkedList<int> ll;
+    ll.insert(9);
+    ll.insert(8);
+    ll.insert(7);
+    ll.insert(6);
+    ll.insert(5);
+    ll.insert(4);
+    ll.insert(3);
+    ll.insert(2);
+    ll.insert(1);
+    ll.display();
+}
+
 /*****************************************************/
 /*****************************************************/
 
 int main() {
     cout << "###### Start of Program ######\n" << endl;
-    problem8();
+    problem11();
     cout << "\n######  End of Program  ######" << endl;
     return 0;
 }
