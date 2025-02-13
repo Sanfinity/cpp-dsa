@@ -294,6 +294,18 @@ public:
             cout << "The given linked list is a palindrome!" << endl;
         }
     }
+
+    void ReverseKNodes(int k) {
+        auto iterativeNode = head;
+        int count{ 0 };
+        while (iterativeNode) {
+            if (count == k) {
+                auto lastNode
+            }
+            count++;
+            iterativeNode = iterativeNode->next;
+        }
+    }
 };
 
 
@@ -549,6 +561,11 @@ void problem11() {
     ll.insert(3);
     ll.insert(2);
     ll.insert(1);
+    ll.display();
+    cout << "Enter the value for k: ";
+    int k;
+    cin >> k;
+    ll.ReverseKNodes(k);
     ll.display();
 }
 
