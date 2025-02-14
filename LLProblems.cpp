@@ -29,6 +29,10 @@ public:
         return head;
     }
 
+    void setHead(Node<T>* newHead) {
+        head = newHead;
+    }
+
     void insert(T inputData) {
         Node<T>* newNode = new Node<T>(inputData);
         if (!head)
@@ -295,16 +299,41 @@ public:
         }
     }
 
-    void ReverseKNodes(int k) {
-        auto iterativeNode = head;
+    Node<T>* ReverseKNodes(Node<T>* phead, int k) {
+        if (!phead || k <= 1) return phead;
+
         int count{ 0 };
-        while (iterativeNode) {
-            if (count == k) {
-                auto lastNode
-            }
+        Node<T>* prev = nullptr;
+        Node<T>* current = phead;
+        Node<T>* next = nullptr;
+
+        // check for atleast k elements in the list
+        auto temp = phead;
+        while (temp && count < k) {
             count++;
-            iterativeNode = iterativeNode->next;
+            temp = temp->next;
         }
+
+        if (count < k) {
+            cout << "Increase the number of elements and try again!";
+            return phead;
+        }
+
+        // reverse the first k nodes now
+        count = 0;
+        while (current && count < k) {
+            next = current->next;
+            current->next = prev;
+            prev = current;
+            current = next;
+            count++;
+        }
+
+        if (next) {
+            phead->next = ReverseKNodes(next, k);
+        }
+
+        return prev;
     }
 };
 
@@ -562,10 +591,11 @@ void problem11() {
     ll.insert(2);
     ll.insert(1);
     ll.display();
-    cout << "Enter the value for k: ";
-    int k;
-    cin >> k;
-    ll.ReverseKNodes(k);
+    //cout << "Enter the value for k: ";
+    //int k;
+    //cin >> k;
+    auto newHead = ll.ReverseKNodes(ll.getHead(), 3);
+    ll.setHead(newHead);
     ll.display();
 }
 
