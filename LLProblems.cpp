@@ -60,6 +60,17 @@ public:
         cout << "]" << endl;
     }
 
+    void deleteHead() {
+        if (!head) {
+            cout << "Empty List!" << endl;
+            return;
+        }
+        Node<T>* tempNode = head->next;
+        head->data = tempNode->data;
+        head->next = tempNode->next;
+        delete tempNode;
+    }
+
     void printFromEnd(Node<T>* node) {
         if (!node) {
             return;
@@ -335,6 +346,55 @@ public:
 
         return prev;
     }
+
+    void sortEvenOdd() {
+        if (!head) {
+            cout << "Empty List!";
+            return;
+        }
+        Node<T>* EvenHead = new Node<T>(-1);
+        auto EvenTraverser = EvenHead;
+        Node<T>* OddHead = new Node<T>(-1);
+        Node<T>* OddTraverser = OddHead;
+        auto temp = head;
+        while (temp) {
+            if (temp->data % 2 == 0) {
+                EvenTraverser->next = temp;
+                EvenTraverser = EvenTraverser->next;
+            }
+            else {
+
+                OddTraverser->next = temp;
+                OddTraverser = OddTraverser->next;
+            }
+            temp = temp->next;
+        }
+        EvenTraverser->next = OddHead->next;
+        head = EvenHead->next;
+        delete EvenHead;
+        delete OddHead;
+    }
+
+    void findModularNode(int k) {
+        if (!head) {
+            cout << "Empty List!";
+            return;
+        }
+        auto temp = head;
+        Node<T>* modularNode = nullptr;
+        int count{ 1 }, modularNodepose{ 0 };
+        while (temp) {
+            if (temp->data % k == 0) {
+                modularNode = temp;
+                modularNodepose = count;
+            }
+            temp = temp->next;
+            count++;
+        }
+        cout << "The modular node is data: " << modularNode->data
+            << " ptr: " << reinterpret_cast<uintptr_t>(modularNode)
+            << " position: " << modularNodepose << endl;
+    }
 };
 
 
@@ -355,7 +415,7 @@ void problem1() {
 }
 
 // Question: Find whether there is any loop in the linked list or not.
-// Solution: Floydâ€™s cycle finding algorithm or Hare-Tortoise algorithm is a pointer algorithm that 
+// Solution: Floyd’s cycle finding algorithm or Hare-Tortoise algorithm is a pointer algorithm that 
 // uses only two pointers, moving through the sequence at different speeds. This algorithm is used to 
 // find a loop in a linked list. It uses two pointers one moving twice as fast as the other one. 
 // The faster one is called the fast pointer and the other one is called the slow pointer.
@@ -599,12 +659,111 @@ void problem11() {
     ll.display();
 }
 
+// Iterative function to solve Josephus Problem
+int josephusIterative(int n, int k) {
+    int result = 0; // When there's only one person left, they are at position 0 (0-based)
+    for (int i = 2; i <= n; i++) {
+        cout << "For i = " << i << ": result = (" << result << " + " << k << ") % " << i << " = " << (result + k) % i << endl;
+        result = (result + k) % i; // Update the safe position
+    }
+    return result + 1; // Convert from 0-based to 1-based
+}
+
+int JosephusLLSimulate(int n, int k) {
+    Node<int>* head = new Node<int>(1);
+    Node<int>* prev = head;
+    for (int i = 2; i <= n; i++) {
+        prev->next = new Node<int>(i);
+        prev = prev->next;
+    }
+    prev->next = head;
+
+    Node<int>* current = head;
+    while (current->next != current) {
+        for (int i = 1; i < k - 1; i++) {
+            current = current->next;
+        }
+        auto toDelete = current->next;
+        current->next = toDelete->next;
+        delete toDelete;
+
+        current = current->next;
+    }
+
+    // Don't forget to delete the list at the end
+    int survivor = current->data;
+    delete current;
+    return survivor;
+}
+
+// Question: Josephus Circle: There are N people standing in a circle. 
+// Every k-th person is eliminated until only one person remains. 
+// Find the position of that last person (1-based index).
+// Solution: Using Circular Linked List.
+void problem12() {
+    cout << "Final Result via iterative method: " << josephusIterative(7, 2) << endl;
+    cout << "Final Result via circular linked list method: " << JosephusLLSimulate(7, 2) << endl;
+}
+
+// Question: Given a pointer to a node in a singly linked list, 
+// delete that node from the linked list.
+// Solution: Think out of the box and use what you already have.
+void problem13() {
+    LinkedList<int> ll;
+    ll.insert(5);
+    ll.insert(4);
+    ll.insert(3);
+    ll.insert(2);
+    ll.insert(1);
+    ll.display();
+    ll.deleteHead();
+    ll.display();
+}
+
+// Question: Given a linked list with even and odd numbers, 
+// create an algorithm for making changes to the list 
+// in such a way that all even numbers appear at the beginning.
+// Solution: Using splitting logic in linked list.
+void problem14() {
+    LinkedList<int> ll;
+    ll.insert(9);
+    ll.insert(8);
+    ll.insert(7);
+    ll.insert(6);
+    ll.insert(5);
+    ll.insert(4);
+    ll.insert(3);
+    ll.insert(2);
+    ll.insert(1);
+    ll.display();
+    ll.sortEvenOdd();
+    ll.display();
+}
+
+// Question: Finding the Modular Node in a Linked List
+// Solution: Given a singly linked list and an integer k, 
+// find the last node in the list whose position (1-based index) is divisible by k.
+void problem15() {
+    LinkedList<int> ll;
+    ll.insert(9);
+    ll.insert(8);
+    ll.insert(7);
+    ll.insert(6);
+    ll.insert(5);
+    ll.insert(4);
+    ll.insert(3);
+    ll.insert(2);
+    ll.insert(1);
+    ll.display();
+    ll.findModularNode(2);
+}
+
 /*****************************************************/
 /*****************************************************/
 
 int main() {
     cout << "###### Start of Program ######\n" << endl;
-    problem11();
+    problem15();
     cout << "\n######  End of Program  ######" << endl;
     return 0;
 }
