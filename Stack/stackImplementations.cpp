@@ -115,6 +115,74 @@ public:
     }
 };
 
+class DynamicStackUsingArray {
+private:
+    int* arr;
+    int capacity;
+    int top;
+
+public:
+    DynamicStackUsingArray(int size = 2) {
+        arr = new int[size];
+        capacity = size;
+        top = -1;
+    }
+
+    ~DynamicStackUsingArray() {
+        delete[] arr;
+    }
+
+    bool isEmpty() {
+        return top == -1;
+    }
+
+    bool isFull() {
+        return top == capacity;
+    }
+
+    void resize(int newCapacity) {
+        int* newArray = new int[newCapacity];
+        for (int i = 0; i <= top;i++) {
+            newArray[i] = arr[i];
+        }
+        delete[] arr;
+        arr = newArray;
+        capacity = newCapacity;
+    }
+
+    void push(int data) {
+        if (isFull()) {
+            resize(capacity * 2);
+        }
+        arr[++top] = data;
+    }
+
+    int pop() {
+        if (isEmpty()) {
+            cout << "Stack Underflow!" << endl;
+            return -1;
+        }
+        auto popElement = arr[top--];
+        // Reduce the size of the array when the stack is 1/4 filled
+        if (top + 1 <= capacity / 4 && capacity > 2) {
+            resize(capacity / 2);
+        }
+        return popElement;
+    }
+
+    int peek() {
+        if (isEmpty()) {
+            cout << "Stack is empty!" << endl;
+            return -1;
+        }
+        return arr[top];
+    }
+
+    int size() {
+        return top + 1;
+    }
+};
+
 int main()
 {
     cout << "\n###### Start of Program ######\n" << endl;
@@ -135,7 +203,7 @@ int main()
     cout << "Popped element: " << s1.pop() << endl;
 
 
-    cout << "\nDynamic Stack" << endl;
+    cout << "\nDynamic Stack using linked list" << endl;
     DynamicStack<int> s2;
 
     s2.push(10);
@@ -152,6 +220,25 @@ int main()
     cout << "Popped element: " << s2.pop() << endl;
     cout << "Popped element: " << s2.pop() << endl;
     cout << "Current size: " << s2.getSize() << endl;
+
+    cout << "\nDynamic Stack using Array" << endl;
+    DynamicStackUsingArray s3;
+
+    s3.push(10);
+    s3.push(20);
+    s3.push(30);
+    s3.push(40);
+    s3.push(50);
+
+    cout << "Top element: " << s3.peek() << endl;
+
+    cout << "Current size: " << s3.size() << endl;
+    cout << "Popped element: " << s3.pop() << endl;
+    cout << "Popped element: " << s3.pop() << endl;
+    cout << "Popped element: " << s3.pop() << endl;
+    cout << "Popped element: " << s3.pop() << endl;
+    cout << "Current size: " << s3.size() << endl;
+
 
     cout << "\nSTL Stack" << endl;
     stack<int> s;
