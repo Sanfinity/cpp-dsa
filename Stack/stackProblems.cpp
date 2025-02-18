@@ -10,6 +10,7 @@ int evaluatePostfix(string expr);
 string convertInfixToPostfix(string infix);
 string convertPrefixToInfix(string expr);
 bool isOperator(char ch);
+void reverseStack(stack<int>& s);
 
 template <typename T>
 class Node {
@@ -24,6 +25,7 @@ class DynamicStack {
 private:
     Node<T>* top;
     int size;
+    stack<T> minStack;
 
 public:
     DynamicStack() {
@@ -36,6 +38,9 @@ public:
     }
 
     void push(T data) {
+        if (minStack.empty() || data < minStack.top()) {
+            minStack.push(data);
+        }
         Node<T>* newNode = new Node<T>(data);
         if (!top) {
             top = newNode;
@@ -52,6 +57,9 @@ public:
         if (isEmpty()) {
             cout << "Stack Underflow!";
             return -1;
+        }
+        if (minStack.top() == top->data) {
+            minStack.pop();
         }
         auto deleteNode = top;
         auto value = top->data;
@@ -71,6 +79,10 @@ public:
 
     int getSize() {
         return size;
+    }
+
+    T GetMinimum() {
+        return minStack.top();
     }
 };
 
@@ -238,12 +250,102 @@ bool isOperator(char ch) {
     return false;
 }
 
+// Question: How to design a stack such that GetMinimum() should be O(1)
+// Solution: Using simple stack
+void problem5() {
+    DynamicStack<int> s;
+    s.push(4);
+    s.push(7);
+    cout << "Minimum value is " << s.GetMinimum() << endl;
+    s.push(2);
+    cout << "Minimum value is " << s.GetMinimum() << endl;
+    s.pop();
+    cout << "Minimum value is " << s.GetMinimum() << endl;
+    s.push(6);
+    s.push(5);
+    s.push(3);
+    cout << "Minimum value is " << s.GetMinimum() << endl;
+    s.push(1);
+    cout << "Minimum value is " << s.GetMinimum() << endl;
+}
+
+// Question: Given an array of characters formed with a's and b's. 
+// The string is marked with character X which represents the middle 
+// of the list (eg. ababaaXaababa).Check whether the string is a palindrome.
+// Solution: Using simple stack
+void problem6() {
+    string expression = "aababaabaXabaababaaa";
+    stack<char> s;
+    bool foundX = false;
+    for (char ch : expression) {
+        if (ch == 'X') {
+            foundX = true;
+        }
+        else if (foundX) {
+            if (!s.empty() && s.top() == ch) {
+                s.pop();
+            }
+            else {
+                cout << "Given string \"" << expression << "\" is not a palindrome" << endl;
+                return;
+            }
+        }
+        else {
+            s.push(ch);
+        }
+    }
+    cout << "Given string \"" << expression << "\" is a palindrome" << endl;
+}
+
+// Question: Reverse the elements of the stack using only stack operations
+// Solution: Using stack and recursion
+void problem7() {
+    stack<int> s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+    reverseStack(s);
+
+    cout << "Reversed Stack (Top to Bottom): ";
+    while (!s.empty()) {
+        cout << s.top() << " ";
+        s.pop();
+    }
+}
+
+void insertAtBottom(stack<int>& s, int element) {
+    if (s.empty()) {
+        s.push(element);
+        return;
+    }
+    auto topElement = s.top();
+    s.pop();
+    insertAtBottom(s, element);
+    s.push(topElement);
+}
+
+void reverseStack(stack<int>& s)
+{
+    if (s.empty()) return;
+    auto topElement = s.top();
+    s.pop();
+    reverseStack(s);
+    insertAtBottom(s, topElement);
+}
+
+// Question:
+// Solution:
+void problem8() {
+    cout << "Hey!" << endl;
+}
+
 /*********************************************************/
 /*********************************************************/
 
 int main() {
     cout << "\n###### Start of Program ######\n" << endl;
-    problem4();
+    problem8();
     cout << "\n######  End of Program  ######\n" << endl;
     return 0;
 }
