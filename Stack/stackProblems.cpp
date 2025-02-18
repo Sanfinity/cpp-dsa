@@ -228,7 +228,7 @@ string convertPrefixToInfix(string expr) {
     stack<string> s;
     auto length = expr.size();
 
-    for (int i = length - 1; i >= 0; i--) {
+    for (auto i = length - 1; i >= 0; i--) {
         if (isOperator(expr[i])) {
             string val1 = s.top(); s.pop();
             string val2 = s.top(); s.pop();
@@ -334,10 +334,25 @@ void reverseStack(stack<int>& s)
     insertAtBottom(s, topElement);
 }
 
-// Question:
+// Question: Consider an empty stack of integers.
+// Let the numbers 1,2,3,4,5,6 be pushed on to the stack in the order they appear from left to right.
+// Let S indicate a push and X indicate a pop operation. Find the output of the stack
 // Solution:
 void problem8() {
-    cout << "Hey!" << endl;
+    string expr = "SSSXXSSXSXXX";
+    stack<char> s;
+    string output = "";
+    char count{ 1 };
+    for (char ch : expr) {
+        if (ch == 'S') {
+            s.push(count++);
+        }
+        else if (ch == 'X') {
+            output += to_string(static_cast<int>(s.top()));
+            s.pop();
+        }
+    }
+    cout << "The output for expression " << expr << " is " << output << endl;
 }
 
 /*********************************************************/
