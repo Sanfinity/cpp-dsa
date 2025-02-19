@@ -348,7 +348,7 @@ void problem8() {
             s.push(count++);
         }
         else if (ch == 'X') {
-            output += to_string(static_cast<int>(s.top()));
+            output += to_string(static_cast<int>(s.top())); // NOTE: Else if I use simple typecast it is outputting the integer as hexadecimal
             s.pop();
         }
     }
