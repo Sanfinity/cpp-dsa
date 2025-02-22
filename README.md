@@ -18,7 +18,7 @@ _(Updating as I go! 🚀)_
 
 1️⃣ Clone the repository:  
 ```bash
-git clone https://github.com/your-username/DSA.git
+git clone https://github.com/Sanfinity/cpp-dsa.git
 ```
 2️⃣ Navigate to a topic folder:
 ```bash
