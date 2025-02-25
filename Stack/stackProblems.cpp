@@ -337,7 +337,7 @@ void reverseStack(stack<int>& s)
 // Question: Consider an empty stack of integers.
 // Let the numbers 1,2,3,4,5,6 be pushed on to the stack in the order they appear from left to right.
 // Let S indicate a push and X indicate a pop operation. Find the output of the stack
-// Solution:
+// Solution: Using simple stack approach
 void problem8() {
     string expr = "SSSXXSSXSXXX";
     stack<char> s;
@@ -355,12 +355,31 @@ void problem8() {
     cout << "The output for expression " << expr << " is " << output << endl;
 }
 
+// Question: On a given machine, how do you check whether the stack grows up or down.
+// Solution: By noting the address of a local variable and comparing it with the top element.
+void problem9() {
+    stack<int> s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+    int a{ 0 }, b{ 0 };
+    cout << "The address of local variable a: " << reinterpret_cast<uintptr_t>(&a) << " and b: " << reinterpret_cast<uintptr_t>(&b) << endl;
+    if (&b < &a) {
+        cout << "The stack grows upwards" << endl;
+    }
+    else {
+        cout << "The stack grows downwards" << endl;
+    }
+}
+
+
 /*********************************************************/
 /*********************************************************/
 
 int main() {
     cout << "\n###### Start of Program ######\n" << endl;
-    problem8();
+    problem9();
     cout << "\n######  End of Program  ######\n" << endl;
     return 0;
 }
