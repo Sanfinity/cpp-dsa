@@ -1,6 +1,7 @@
 #include<iostream>
 #include<stack>
 #include<sstream>
+#include<vector>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ string convertPrefixToInfix(string expr);
 bool isOperator(char ch);
 void reverseStack(stack<int>& s);
 void calculateSpan(int A[], int n, int S[]);
+int largestRectangleArea(vector<int>& heights);
 
 template <typename T>
 class Node {
@@ -391,12 +393,14 @@ void problem10() {
     for (int i = 0; i < n; i++) {
         cout << S[i] << " ";
     }
+    cout << endl;
 }
 
 void calculateSpan(int A[], int n, int S[]) {
     stack<int> st;
 
     for (int i = 0; i < n; i++) {
+        // Pop elements that are smaller than or equal to A[i]
         while (!st.empty() && A[st.top()] <= A[i])
         {
             st.pop();
@@ -406,13 +410,39 @@ void calculateSpan(int A[], int n, int S[]) {
     }
 }
 
+// Question: Largest Rectangle in Histogram Problem. 
+// Imagine you have bars of different heights placed next to each other, like a skyline. 
+// We need to find the largest rectangle that we can draw inside the histogram.
+// Solution: We use a stack to efficiently find the width of each possible rectangle.
+void problem11() {
+    vector<int> heights = { 2, 1, 5, 6, 2, 3 };
+    cout << "Largest Rectangle Area: " << largestRectangleArea(heights) << endl;
+}
+
+int largestRectangleArea(vector<int>& heights) {
+    stack<int> st;
+    int maxArea{ 0 };
+    int n = heights.size();
+
+    for (int i = 0; i <= n; i++) {
+        int h = (i == n) ? 0 : heights[i];
+        while (!st.empty() && heights[st.top()] > h) {
+            int height = heights[st.top()];
+            st.pop();
+            int width = st.empty() ? i : (i - st.top() - 1);
+            maxArea = max(maxArea, height * width);
+        }
+        st.push(i);
+    }
+    return maxArea;
+}
 
 /*********************************************************/
 /*********************************************************/
 
 int main() {
     cout << "\n###### Start of Program ######\n" << endl;
-    problem10();
+    problem11();
     cout << "\n######  End of Program  ######\n" << endl;
     return 0;
 }
