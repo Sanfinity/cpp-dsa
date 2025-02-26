@@ -11,6 +11,7 @@ string convertInfixToPostfix(string infix);
 string convertPrefixToInfix(string expr);
 bool isOperator(char ch);
 void reverseStack(stack<int>& s);
+void calculateSpan(int A[], int n, int S[]);
 
 template <typename T>
 class Node {
@@ -374,12 +375,44 @@ void problem9() {
 }
 
 
+// Question: The span problem - stock market. 
+// The span of an element A[i] in an array is the maximum number of consecutive elements 
+// (including A[i] itself) before it that are less than or equal to A[i].
+// Solution: Use a monotonic decreasing stack to efficiently compute spans.
+void problem10() {
+    int A[] = { 100, 80, 60, 70, 60, 75, 85 };
+    int n = sizeof(A) / sizeof(A[0]);
+    int S[7];
+
+    calculateSpan(A, n, S);
+
+    // Print the spans
+    cout << "Span array: ";
+    for (int i = 0; i < n; i++) {
+        cout << S[i] << " ";
+    }
+}
+
+void calculateSpan(int A[], int n, int S[]) {
+    stack<int> st;
+
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && A[st.top()] <= A[i])
+        {
+            st.pop();
+        }
+        S[i] = st.empty() ? i + 1 : i - st.top();
+        st.push(i);
+    }
+}
+
+
 /*********************************************************/
 /*********************************************************/
 
 int main() {
     cout << "\n###### Start of Program ######\n" << endl;
-    problem9();
+    problem10();
     cout << "\n######  End of Program  ######\n" << endl;
     return 0;
 }
