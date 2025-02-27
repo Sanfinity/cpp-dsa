@@ -14,6 +14,8 @@ bool isOperator(char ch);
 void reverseStack(stack<int>& s);
 void calculateSpan(int A[], int n, int S[]);
 int largestRectangleArea(vector<int>& heights);
+string removeDuplicates(string& input);
+vector<int> replaceWithNextGreater(vector<int>& input);
 
 template <typename T>
 class Node {
@@ -437,12 +439,58 @@ int largestRectangleArea(vector<int>& heights) {
     return maxArea;
 }
 
+// Question: Remove All Adjacent Duplicates in a String
+// Solution: We need to remove pairs of adjacent duplicates repeatedly until no more adjacent duplicates exist.
+void problem12() {
+    string s = "careermonk";
+    cout << "Output: " << removeDuplicates(s) << endl;
+}
+
+string removeDuplicates(string& input) {
+    stack<char> s;
+    for (char c : input) {
+        if (!s.empty() && s.top() == c) {
+            s.pop();
+        }
+        else {
+            s.push(c);
+        }
+    }
+
+    string result{ "" };
+    while (!s.empty()) {
+        result = s.top() + result;
+        s.pop();
+    }
+    return result;
+}
+
+// Question: Given an array, replace every element with the nearest greatest element 
+// on the right. If there is no greater element on the right, replace it with -1.
+// Solution: Instead of using nested loops (O(N²)), we can traverse from right 
+// to left and use a stack to store potential greater elements.
+void problem13() {
+    vector<int> arr = { 16, 17, 4, 3, 5, 2 };
+    vector<int> result = replaceWithNextGreater(arr);
+
+    cout << "Output: ";
+    for (int num : result) {
+        cout << num << " ";
+    }
+    cout << endl;
+}
+
+vector<int> replaceWithNextGreater(vector<int>& arr) {
+    vector<int> arrr = { 16, 17, 4, 3, 5, 2 };
+    return arrr;
+}
+
 /*********************************************************/
 /*********************************************************/
 
 int main() {
     cout << "\n###### Start of Program ######\n" << endl;
-    problem11();
+    problem13();
     cout << "\n######  End of Program  ######\n" << endl;
     return 0;
 }
