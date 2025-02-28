@@ -1,4 +1,4 @@
-#include<iostream>
+﻿#include<iostream>
 #include<stack>
 #include<sstream>
 #include<vector>
@@ -467,7 +467,7 @@ string removeDuplicates(string& input) {
 
 // Question: Given an array, replace every element with the nearest greatest element 
 // on the right. If there is no greater element on the right, replace it with -1.
-// Solution: Instead of using nested loops (O(N�)), we can traverse from right 
+// Solution: Instead of using nested loops (O(N²)), we can traverse from right 
 // to left and use a stack to store potential greater elements.
 void problem13() {
     vector<int> arr = { 16, 17, 4, 3, 5, 2 };
@@ -481,8 +481,21 @@ void problem13() {
 }
 
 vector<int> replaceWithNextGreater(vector<int>& arr) {
-    vector<int> arrr = { 16, 17, 4, 3, 5, 2 };
-    return arrr;
+    int n = arr.size();
+    vector<int> result(n);
+    stack<int> st;
+
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && st.top() <= arr[i]) {
+            st.pop();
+        }
+
+        result[i] = st.empty() ? -1 : st.top();
+
+        st.push(arr[i]);
+    }
+
+    return result;
 }
 
 /*********************************************************/
