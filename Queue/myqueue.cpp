@@ -1,4 +1,5 @@
 #include<iostream>
+#include<queue>
 
 using namespace std;
 
@@ -187,6 +188,21 @@ int main() {
     q2.display();
     cout << "Front: " << q2.getFront() << ", Rear: " << q2.getRear() << endl;
 
+    cout << "#####" << endl;
+    queue<int> q3;
+    q3.push(1);
+    q3.push(2);
+    q3.push(3);
+    q3.push(4);
+    q3.push(5);
+    q3.push(6);
+    cout << "Queue size: " << q3.size() << endl;
+    for (int i = 0; i < 3;i++) {
+        cout << "Pop element: front -> " << q3.front() << " back -> " << q3.back() << endl;
+        q3.pop();
+    }
+
+    cout << "Queue size: " << q3.size() << endl;
 
     cout << "\n######  End of Program  ######\n" << endl;
     return 0;
