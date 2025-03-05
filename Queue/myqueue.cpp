@@ -82,6 +82,78 @@ public:
 /*********************************************************/
 /*********************************************************/
 
+template <typename T>
+class Node {
+public:
+    T data;
+    Node<T>* next;
+
+    Node(T input) {
+        data = input;
+        next = nullptr;
+    }
+};
+
+template <typename T>
+class QueueUsingLL {
+private:
+    Node<T>* front;
+    Node<T>* rear;
+
+public:
+    QueueUsingLL() :front(nullptr), rear(nullptr) {}
+
+    bool isEmpty() {
+        return front == nullptr;
+    }
+
+    void enqueue(T input) {
+        Node<T>* newNode = new Node<T>(input);
+        if (rear == nullptr) {
+            rear = newNode;
+            front = newNode;
+        }
+        else {
+            rear->next = newNode;
+            rear = newNode;
+        }
+    }
+
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "List is already empty!" << endl;
+        }
+        Node<T>* deleteNode = front;
+        front = front->next;
+        if (front == nullptr) front = rear = nullptr;
+        cout << "Element deleted is " << deleteNode->data << endl;
+        delete deleteNode;
+    }
+
+    int getFront() {
+        return isEmpty() ? -1 : front->data;
+    }
+
+    int getRear() {
+        return isEmpty() ? -1 : rear->data;
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty!\n";
+            return;
+        }
+        Node<T>* temp = front;
+        cout << "Queue: ";
+        while (temp) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+
 int main() {
     cout << "\n###### Start of Program ######\n" << endl;
     queueUsingArray q(6);
@@ -97,6 +169,25 @@ int main() {
     q.dequeue();
     q.display();
     cout << "Front: " << q.getFront() << ", Rear: " << q.getRear() << endl;
+
+    cout << "#####" << endl;
+
+    QueueUsingLL<int> q2;
+    q2.enqueue(10);
+    q2.enqueue(20);
+    q2.enqueue(30);
+    q2.enqueue(50);
+    q2.enqueue(60);
+    q2.enqueue(70);
+    q2.enqueue(80);
+    q2.display();
+    q2.dequeue();
+    q2.dequeue();
+    q2.dequeue();
+    q2.display();
+    cout << "Front: " << q2.getFront() << ", Rear: " << q2.getRear() << endl;
+
+
     cout << "\n######  End of Program  ######\n" << endl;
     return 0;
 }
