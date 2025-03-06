@@ -80,6 +80,102 @@ public:
     }
 };
 
+class DynamicQueue {
+private:
+    int front, rear, capacity, size;
+    int* arr;
+
+public:
+    DynamicQueue(int initialCapacity = 4) {
+        arr = new int[initialCapacity];
+        capacity = initialCapacity;
+        front = rear = -1;
+        size = 0;
+    }
+
+    ~DynamicQueue() {
+        delete[] arr;
+    }
+
+    bool isEmpty() {
+        return front == -1;
+    }
+
+    bool isFull() {
+        return rear == capacity - 1;
+    }
+
+    void resize() {
+        int newCapacity = capacity * 2;
+        int* newArr = new int[newCapacity];
+
+        // Copy old elements to new array
+        for (int i = 0; i < size; i++) {
+            newArr[i] = arr[(front + i) % capacity];
+        }
+
+        delete[] arr;  // Free old array memory
+        arr = newArr;
+        front = 0;
+        rear = size - 1;
+        capacity = newCapacity;
+
+        cout << "Queue resized to capacity: " << capacity << endl;
+    }
+
+    void enqueue(int data) {
+        if (isFull()) {
+            resize();
+        }
+
+        if (front == -1) {
+            front = 0;
+        }
+        rear = (rear + 1) % capacity;
+        arr[rear] = data;
+        size++;
+    }
+
+    int dequeue() {
+        if (isEmpty()) {
+            cout << "Queue is already empty" << endl;
+            return -1;
+        }
+
+        auto data = arr[front];
+
+        if (rear == front) {
+            rear = front = -1;
+        }
+        else {
+            front = (front + 1) % capacity;;
+        }
+        size--;
+        return data;
+    }
+
+    int getFront() {
+        return arr[front];
+    }
+
+    int getRear() {
+        return arr[rear];
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty!\n";
+            return;
+        }
+
+        cout << "Content of Queue is [ ";
+        for (int i = front; i <= rear; i++) {
+            cout << arr[i] << " ";
+        }
+        cout << "]" << endl;
+    }
+};
+
 /*********************************************************/
 /*********************************************************/
 
@@ -203,6 +299,22 @@ int main() {
     }
 
     cout << "Queue size: " << q3.size() << endl;
+
+    cout << "#####" << endl;
+    DynamicQueue q4(3); // Initial capacity of 3
+
+    q4.enqueue(10);
+    q4.enqueue(20);
+    q4.enqueue(30);
+    q4.display();
+
+    q4.enqueue(40);  // Triggers resizing
+    q4.display();
+
+    q4.dequeue();
+    q4.display();
+
+    cout << "Front: " << q4.getFront() << ", Rear: " << q4.getRear() << endl;
 
     cout << "\n######  End of Program  ######\n" << endl;
     return 0;
