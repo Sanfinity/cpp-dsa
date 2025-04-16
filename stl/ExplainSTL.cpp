@@ -4,6 +4,9 @@
 #include <deque>
 #include <stack>
 #include <queue>
+#include <set>
+#include <unordered_set>
+#include <map>
 
 using namespace std;
 
@@ -187,10 +190,80 @@ void explainPQ() {
     // Push, Pop -> Log(n) | top -> O(1)
 }
 
+// Needs #include <set>
+void explainSet() {
+    set<int> s;
+    s.insert(1); // {1}
+    s.emplace(2); // {1,2}
+    s.emplace(2); // {1,2}
+    s.emplace(4); // {1,2,4}
+    s.emplace(3); // {1,2,3,4}
+    cout << s.size() << endl;
+
+    auto it = s.find(3); // returns a iterator
+    auto it = s.find(6); // returns s.end() as its > size()
+    s.erase(2); // erase 2 from the set
+
+    s.count(1); // If 1 in set then true else false
+    s.erase(s.find(3));
+
+    auto it = s.lower_bound(2);
+    auto it = s.upper_bound(2);
+
+    // All operations takes log(n) 
+    // Sets are always sorted and unique
+}
+
+// Needs #include <set>
+void explainMultiSet() {
+    // Just sorted but not unique
+    multiset<int> s;
+    s.insert(1); // {1}
+    s.emplace(2); // {1,2}
+    s.emplace(2); // {1,2,2}
+    s.emplace(4); // {1,2,2,4}
+    s.emplace(3); // {1,2,2,3,4}
+    cout << s.size() << endl;
+
+    auto it = s.find(3); // returns a iterator
+    auto it = s.find(6); // returns s.end() as its > size()
+    s.erase(3); // erase 2 from the set
+
+    auto cnt = s.count(5);
+    s.erase(s.find(3));
+}
+
+// Needs #include <unordered_set>
+void explainUnorderedSet() {
+    unordered_set<int> s;
+    // Just unique and no order
+    s.insert(1); // {1}
+    s.emplace(2); // {1,2}
+    s.emplace(2); // {1,2}
+    s.emplace(4); // {1,2,4}
+    s.emplace(3); // {1,2,4,3}
+    cout << s.size() << endl;
+
+    auto it = s.find(3); // returns a iterator
+    auto it = s.find(6); // returns s.end() as its > size()
+    s.erase(2); // erase 2 from the set
+
+    s.count(1);
+    s.erase(s.find(3));
+
+    // All operations takes O(1) 
+    // upper_bound() and lower_bound() functions doesn't work
+}
+
+// Needs #include <map>
+void explainMap() {
+    map<int, int> m;
+}
+
 int main()
 {
     cout << "\n#### Program Start here ####\n";
-    explainPQ();
+    explainSet();
 
     cout << "\n#### Program Ends here ####\n";
 }
