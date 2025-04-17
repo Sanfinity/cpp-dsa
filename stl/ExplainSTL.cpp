@@ -7,6 +7,7 @@
 #include <set>
 #include <unordered_set>
 #include <map>
+#include <algorithm>
 
 using namespace std;
 
@@ -201,14 +202,14 @@ void explainSet() {
     cout << s.size() << endl;
 
     auto it = s.find(3); // returns a iterator
-    auto it = s.find(6); // returns s.end() as its > size()
+    it = s.find(6); // returns s.end() as its > size()
     s.erase(2); // erase 2 from the set
 
     s.count(1); // If 1 in set then true else false
     s.erase(s.find(3));
 
-    auto it = s.lower_bound(2);
-    auto it = s.upper_bound(2);
+    it = s.lower_bound(2);
+    it = s.upper_bound(2);
 
     // All operations takes log(n) 
     // Sets are always sorted and unique
@@ -226,7 +227,7 @@ void explainMultiSet() {
     cout << s.size() << endl;
 
     auto it = s.find(3); // returns a iterator
-    auto it = s.find(6); // returns s.end() as its > size()
+    it = s.find(6); // returns s.end() as its > size()
     s.erase(3); // erase 2 from the set
 
     auto cnt = s.count(5);
@@ -245,7 +246,7 @@ void explainUnorderedSet() {
     cout << s.size() << endl;
 
     auto it = s.find(3); // returns a iterator
-    auto it = s.find(6); // returns s.end() as its > size()
+    it = s.find(6); // returns s.end() as its > size()
     s.erase(2); // erase 2 from the set
 
     s.count(1);
@@ -257,13 +258,79 @@ void explainUnorderedSet() {
 
 // Needs #include <map>
 void explainMap() {
+    // Key value pairs
+    // Map stores unique keys in sorted order
     map<int, int> m;
+    m[1] = 2; // Key 1 = value 2
+    m.emplace(2, 3);
+    m.insert({ 3, 5 });
+    cout << m[3] << endl;
+
+    for (auto it : m) {
+        cout << it.first << " " << it.second << endl;
+    }
+
+    auto it = m.find(3);
+    cout << it->second << endl;
+
+    // Multi Map
+    // Everything is same except it can store multiple keys and map[key] can't be used
+    // Unordered Map
+    // Same as set and unordered_set difference
+}
+
+bool comp(pair<int, int> p1, pair<int, int> p2) {
+    if (p1.second < p2.second) {
+        return true;
+    }
+    if (p1.second > p2.second) {
+        return false;
+    }
+
+    if (p1.first > p2.first) {
+        return true;
+    }
+    return false;
+}
+
+// Needs #include <algorithm>
+void explainExtra() {
+    int a[] = { 1,3,6,2,4,8,5 };
+    sort(a, a + 4); // start, end+1
+    sort(a, a + 4, greater<int>());
+
+    for (auto it : a) {
+        cout << it << " " << endl;
+    }
+
+    pair<int, int> b[] = { {1,2}, {8,9}, {6,7}, {3,4} };
+    sort(b, b + 4, comp);
+    for (auto it : b) {
+        cout << it.first << "," << it.second << " " << endl;
+    }
+
+    // Works only with Gcc/Clang compilers
+    //int num = 8;
+    //int cnt = __builtin_popcount(num);
+    //cout << "Number of set bits in " << num << " is: " << cnt << endl;
+
+    //long long num2 = 231545641651;
+    //cnt = __builtin_popcountll(num2);
+    //cout << "Number of set bits in " << num2 << " is: " << cnt << endl;
+
+    string s = "123";
+    do {
+        cout << s << endl;
+    } while (next_permutation(s.begin(), s.end()));
+
+    int maxi = *max_element(a, a + 7);
+    cout << "max element is " << maxi << endl;
 }
 
 int main()
 {
     cout << "\n#### Program Start here ####\n";
-    explainSet();
+    explainExtra();
 
     cout << "\n#### Program Ends here ####\n";
 }
