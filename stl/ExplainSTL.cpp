@@ -318,6 +318,7 @@ void explainExtra() {
     //cnt = __builtin_popcountll(num2);
     //cout << "Number of set bits in " << num2 << " is: " << cnt << endl;
 
+    // This can be used to find different permuatation for a given string
     string s = "123";
     do {
         cout << s << endl;
