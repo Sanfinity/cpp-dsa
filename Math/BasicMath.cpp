@@ -29,6 +29,8 @@ void PrintDivisorOptimized(int n) {
         cout << item << " ";
     }
     cout << endl;
+    // Total complexity is O(sqrt(n)) + O(no.of factors * log(no. of factors)) + O(no. of factors)
+    // Which is still better than traversing through all the possibilities if the input is high
 }
 
 int main()
