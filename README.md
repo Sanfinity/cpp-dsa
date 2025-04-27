@@ -8,6 +8,7 @@ This repository contains my **daily** practice and implementations of **Data Str
 
 ✅ **Linked Lists**  
 ✅ **Stacks**  
+✅ **Math**  
 ⏳ **Next: Queues**  
 
 _(Updating as I go! 🚀)_  
