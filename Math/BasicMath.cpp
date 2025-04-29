@@ -94,10 +94,35 @@ int main()
     // if x is factors of n then n/x is also a factor, so we only need to loop till sqrt(n)
     PrintDivisorOptimized(n);
 
-    // Find whether given number is prime or not
+    // Find whether given number is prime or not -> only two factors which are one and itself
     // O(sqrt(n))
     n = 13;
     cout << n << " is prime: " << IsPrime(n) << endl;
+
+    // GCD | HCF
+    // n1 & n2 -> GCD/HCF = largest number that divides both n1 and n2
+    int n1 = 9, n2 = 12;
+
+    // O(min(n1,n2)
+    for (int i = min(n1, n2); i > 0; i--) {
+        if (n1 % i == 0 && n2 % i == 0) {
+            cout << "GCD is " << i << endl;
+            break;
+        }
+    }
+    // Euclidean Algorithm
+    // gcd(a,b) = gcd(a-b,b) where a>b => gcd(a%b,b)
+    // O(log(min(n1,n2))
+    int a = n1, b = n2;
+    while (a > 0 && b > 0) {
+        if (a > b)
+            a = a % b;
+        else
+            b = b % a;
+    }
+    if (a == 0) cout << "GCD is " << b << endl;
+    else cout << "GCD is " << a << endl;
+
 
     std::cout << "\n###### END OF PROGRAM ######\n";
 }
