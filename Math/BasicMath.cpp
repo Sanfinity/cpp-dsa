@@ -3,6 +3,22 @@
 #include <algorithm>
 using namespace std;
 
+bool IsPrime(int n) {
+    int count{ 0 };
+    for (int i = 1;i * i <= n;i++) {
+        if (n % i == 0) {
+            count++;
+            if (n / i != i) {
+                count++;
+            }
+        }
+    }
+    if (count == 2) {
+        return true;
+    }
+    return false;
+}
+
 void PrintDivisor(int n) {
     for (int i = 1; i < n;i++) {
         if (n % i == 0) {
@@ -29,8 +45,6 @@ void PrintDivisorOptimized(int n) {
         cout << item << " ";
     }
     cout << endl;
-    // Total complexity is O(sqrt(n)) + O(no.of factors * log(no. of factors)) + O(no. of factors)
-    // Which is still better than traversing through all the possibilities if the input is high
 }
 
 int main()
@@ -79,6 +93,11 @@ int main()
     cout << endl;
     // if x is factors of n then n/x is also a factor, so we only need to loop till sqrt(n)
     PrintDivisorOptimized(n);
+
+    // Find whether given number is prime or not
+    // O(sqrt(n))
+    n = 13;
+    cout << n << " is prime: " << IsPrime(n) << endl;
 
     std::cout << "\n###### END OF PROGRAM ######\n";
 }
