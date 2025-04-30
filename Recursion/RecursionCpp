@@ -1,0 +1,46 @@
+#include <iostream>
+
+using namespace std;
+
+void printName(int n, string name) {
+    if (n <= 0) {
+        return;
+    }
+    cout << name << endl;
+    printName(n - 1, name);
+}
+
+void printLinear(int n, int i = 1) {
+    if (i > n)  return;
+    cout << i << " ";
+    printLinear(n, i + 1);
+}
+
+void printLinearBacktracking(int n) {
+    if (n < 1) return;
+    printLinearBacktracking(n - 1);
+    cout << n << " ";
+}
+
+int main()
+{
+    cout << "\n###### START OF PROGRAM ######\n";
+
+    // Recursion = A function call itself
+
+    // Print name N times
+    int n = 5;
+    string name = "sanfi";
+    printName(n, name); // O(N) & space = O(N)
+
+    // Print linearly from 1 to N
+    n = 10;
+    printLinear(n);
+    cout << endl;
+    // By backtracking
+    printLinearBacktracking(n);
+
+    // Sum of first N numbers -> parameter / functional
+
+    cout << "\n###### END OF PROGRAM ######\n";
+}
