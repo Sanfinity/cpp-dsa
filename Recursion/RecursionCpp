@@ -22,6 +22,28 @@ void printLinearBacktracking(int n) {
     cout << n << " ";
 }
 
+void sumParameterised(int n, int sum){
+    if (n<0) {
+        cout << "Sum is " << sum << endl;
+        return;
+    }
+    sumParameterised(n-1,sum+n);
+}
+
+int sumFunctional(int n){
+    if (n<1){
+        return 0;
+    }
+    return n+sumFunctional(n-1);
+}
+
+int NFactorial(int n) {
+    if (n==1){
+        return 1;
+    }
+    return n * NFactorial(n-1);
+}
+
 int main()
 {
     cout << "\n###### START OF PROGRAM ######\n";
@@ -39,8 +61,21 @@ int main()
     cout << endl;
     // By backtracking
     printLinearBacktracking(n);
+    cout << endl;
 
     // Sum of first N numbers -> parameter / functional
+    // Parameterised way
+    // Using an iterator i
+    n = 4;
+    sumParameterised(n,0);
+    cout << "Sum is " << sumFunctional(n) << endl;
+    
+    // Factorial of N
+    n = 5;
+    cout << "Factorial is " << NFactorial(n) << endl;
+    
+    // Reverse an Array
+    int a[] = {1,2,3,4,5};
 
     cout << "\n###### END OF PROGRAM ######\n";
 }
