@@ -22,26 +22,54 @@ void printLinearBacktracking(int n) {
     cout << n << " ";
 }
 
-void sumParameterised(int n, int sum){
-    if (n<0) {
+void sumParameterised(int n, int sum) {
+    if (n < 0) {
         cout << "Sum is " << sum << endl;
         return;
     }
-    sumParameterised(n-1,sum+n);
+    sumParameterised(n - 1, sum + n);
 }
 
-int sumFunctional(int n){
-    if (n<1){
+int sumFunctional(int n) {
+    if (n < 1) {
         return 0;
     }
-    return n+sumFunctional(n-1);
+    return n + sumFunctional(n - 1);
 }
 
 int NFactorial(int n) {
-    if (n==1){
+    if (n == 1) {
         return 1;
     }
-    return n * NFactorial(n-1);
+    return n * NFactorial(n - 1);
+}
+
+void swap(int& a, int& b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+void reverseArray(int a[], int l, int r) {
+    if (l >= r) {
+        return;
+    }
+    swap(a[l], a[r]);
+    reverseArray(a, l + 1, r - 1);
+}
+
+bool checkPalindrome(string& input, int i = 0) {
+    if (i >= input.size() / 2)
+        return true;
+    if (input[i] != input[input.size() - i - 1])
+        return false;
+    return checkPalindrome(input, i + 1);
+}
+
+int fib(int n) {
+    if (n <= 1)
+        return n;
+    return fib(n - 1) + fib(n - 2);
 }
 
 int main()
@@ -67,15 +95,34 @@ int main()
     // Parameterised way
     // Using an iterator i
     n = 4;
-    sumParameterised(n,0);
+    sumParameterised(n, 0);
     cout << "Sum is " << sumFunctional(n) << endl;
-    
+
     // Factorial of N
     n = 5;
     cout << "Factorial is " << NFactorial(n) << endl;
-    
+
     // Reverse an Array
-    int a[] = {1,2,3,4,5};
+    int a[] = { 1,2,3,4,5 };
+    for (int it : a) {
+        cout << it << " ";
+    }
+    cout << endl;
+    reverseArray(a, 0, sizeof(a) / sizeof(int) - 1);
+    for (int it : a) {
+        cout << it << " ";
+    }
+    cout << endl;
+
+    // Check if a given string is palindrome or not
+    string sample = "madam";
+    cout << "IsPalindrome of " << sample << " is " << checkPalindrome(sample) << endl;
+
+    // Multiple Recursion calls
+    // Generate Fibonacci of N digits
+    // TC is O(2^n)
+    n = 4;
+    cout << fib(n - 1) << endl;
 
     cout << "\n###### END OF PROGRAM ######\n";
 }
