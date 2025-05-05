@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -50,6 +51,46 @@ void insertionSort(int a[], int n) {
     }
 }
 
+void merge(vector<int>& arr, int low, int mid, int high) {
+    vector<int> temp;
+    int left = low;
+    int right = mid + 1;
+    while (left <= mid && right <= high) {
+        if (arr[left] <= arr[right]) {
+            temp.emplace_back(arr[left]);
+            left++;
+        }
+        else {
+            temp.emplace_back(arr[right]);
+            right++;
+        }
+    }
+
+    while (left <= mid) {
+        temp.emplace_back(arr[left]);
+        left++;
+    }
+
+    while (right <= high) {
+        temp.emplace_back(arr[right]);
+        right++;
+    }
+
+    for (int i = low; i <= high; i++) {
+        arr[i] = temp[i - low];
+    }
+}
+
+// TC: O(n*log2(n))
+// SC: O(n)
+void mergeSort(vector<int>& arr, int low, int high) {
+    if (low >= high) return;
+    int mid = (low + high) / 2;
+    mergeSort(arr, low, mid);
+    mergeSort(arr, mid + 1, high);
+    merge(arr, low, mid, high);
+}
+
 int main()
 {
     cout << "\n###### START OF PROGRAM ######\n";
@@ -61,8 +102,10 @@ int main()
     int n = sizeof(a) / sizeof(int);
     //SelectionSort(a, n);
     //BubbleSort(a, n);
-    insertionSort(a, n);
-    for (auto it : a) {
+    //insertionSort(a, n);
+    vector<int> arr = { 2,5,8,3,7,4,9,1,6 };
+    mergeSort(arr, 0, arr.size() - 1);
+    for (auto it : arr) {
         cout << it << " ";
     }
     cout << endl;
