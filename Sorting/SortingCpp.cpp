@@ -91,21 +91,56 @@ void mergeSort(vector<int>& arr, int low, int high) {
     merge(arr, low, mid, high);
 }
 
+int qs(int a[], int low, int high) {
+    auto pivot = a[low];
+    auto i = low;
+    auto j = high;
+
+    while (i < j) {
+        while (a[i] <= pivot && i <= high - 1) {
+            i++;
+        }
+        while (a[j] > pivot && j >= low + 1) {
+            j--;
+        }
+        if (i < j) {
+            swap(a[i], a[j]);
+        }
+    }
+    swap(a[low], a[j]);
+    return j;
+}
+
+// TC: O(nlogn)
+// SC: O(1)
+void QuickSort(int a[], int low, int high) {
+    if (low < high) {
+        int pivot = qs(a, low, high);
+        QuickSort(a, low, pivot - 1);
+        QuickSort(a, pivot + 1, high);
+    }
+}
+
 int main()
 {
     cout << "\n###### START OF PROGRAM ######\n";
+
     // Sorting
     // Selection Sort: Select minimums and swap it
     // Bubble Sort: Push the element to the last by adjcent swaps
     // Insertion Sort: Take an element & place it in its correct order
+    // Merge Sort: Divide and conquor method
+    // Quick Sort: Pick a pivot & place it in its correct place in the sorted array | Smaller on the left and larger on the right
+
     int a[] = { 3,9,2,7,4,6,1 };
     int n = sizeof(a) / sizeof(int);
+    QuickSort(a, 0, n - 1);
     //SelectionSort(a, n);
     //BubbleSort(a, n);
     //insertionSort(a, n);
     vector<int> arr = { 2,5,8,3,7,4,9,1,6 };
     mergeSort(arr, 0, arr.size() - 1);
-    for (auto it : arr) {
+    for (auto it : a) {
         cout << it << " ";
     }
     cout << endl;
