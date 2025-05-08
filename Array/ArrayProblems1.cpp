@@ -61,6 +61,21 @@ int main()
     cout << "Smallest element is " << smallest << endl;
     cout << "Second Smallest element is " << secSmallest << endl;
 
+    // Check if the array is sorted
+    vector<int> b = { 1,2,3,4,4,5,6,7,8 };
+    auto temp = b[0];
+    auto isSorted = true;
+    for (int i = 1; i < b.size(); i++) {
+        if (temp > b[i]) {
+            isSorted = false;
+            break;
+        }
+        temp = b[i];
+    }
+    cout << "Is the array sorted: " << isSorted << endl;
+
+    // Remove duplicates
+
 
     cout << "\n###### END OF PROGRAM ######\n";
 }
