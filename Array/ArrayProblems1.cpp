@@ -74,7 +74,7 @@ int main()
     }
     cout << "Is the array sorted: " << isSorted << endl;
 
-    // Remove duplicates
+    // Remove duplicates from an array
 
 
     cout << "\n###### END OF PROGRAM ######\n";
