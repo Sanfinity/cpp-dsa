@@ -125,7 +125,7 @@ int main()
 {
     cout << "\n###### START OF PROGRAM ######\n";
 
-    // Sorting
+    // Sorting - Just remember this to write any sort
     // Selection Sort: Select minimums and swap it
     // Bubble Sort: Push the element to the last by adjcent swaps
     // Insertion Sort: Take an element & place it in its correct order
