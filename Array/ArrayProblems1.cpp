@@ -76,6 +76,5 @@ int main()
 
     // Remove duplicates from an array
 
-
     cout << "\n###### END OF PROGRAM ######\n";
 }
