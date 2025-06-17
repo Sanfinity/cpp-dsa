@@ -127,6 +127,53 @@ DatabaseConnection* DatabaseConnection::instance = nullptr;
 // ========== 4. PROTOTYPE PATTERN ==========
 // Creates objects by cloning existing instances
 
+class Shape {
+protected:
+    std::string color;
+
+public:
+    Shape(const std::string& inputColor) : color(inputColor) {};
+    virtual ~Shape() = default;
+    virtual unique_ptr<Shape> clone() = 0;
+    virtual void display() = 0;
+};
+
+class Rectangle : public Shape {
+private:
+    int length, width;
+
+public:
+    Rectangle(const std::string& color, int length, int width) : Shape(color), length(length), width(width) {};
+
+    unique_ptr<Shape> clone() override {
+        return make_unique<Rectangle>(*this);
+    }
+
+    void display() override {
+        std::cout << "Rectangle - Color: " << color
+            << ", Width: " << width
+            << ", Length: " << length << std::endl;
+    }
+};
+
+class Circle : public Shape {
+private:
+    int radius;
+
+public:
+    Circle(const std::string& color, int radius)
+        : Shape(color), radius(radius) {
+    }
+
+    std::unique_ptr<Shape> clone() override {
+        return std::make_unique<Circle>(*this);
+    }
+
+    void display() override {
+        std::cout << "Circle - Color: " << color
+            << ", Radius: " << radius << std::endl;
+    }
+};
 
 int main()
 {
@@ -145,4 +192,16 @@ int main()
     DatabaseConnection* db2 = DatabaseConnection::getInstance();
     std::cout << "Same instance? " << (db1 == db2) << std::endl;
     db1->query("SELECT * FROM users");
+
+    std::cout << "\n=== PROTOTYPE PATTERN ===" << std::endl;
+    Circle originalCircle("Red", 5);
+    Rectangle originalRect("Blue", 10, 20);
+
+    auto clonedCircle = originalCircle.clone();
+    auto clonedRect = originalRect.clone();
+
+    std::cout << "Original: ";
+    originalCircle.display();
+    std::cout << "Cloned: ";
+    clonedCircle->display();
 }
