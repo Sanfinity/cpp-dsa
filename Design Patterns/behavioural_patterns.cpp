@@ -146,6 +146,134 @@ public:
     }
 };
 
+// ========== 4. MEDIATOR PATTERN ==========
+// Defines how objects interact with each other through a mediator
+
+class User; // Forward declaration
+
+class ChatMediator {
+public:
+    virtual ~ChatMediator() = default;
+    virtual void sendMessage(const std::string& message, User* sender) = 0;
+};
+
+class User {
+protected:
+    ChatMediator* mediator;
+    std::string name;
+
+public:
+    User(ChatMediator* med, const std::string& userName) : mediator(med), name(userName) {}
+    virtual ~User() = default;
+
+    virtual void send(const std::string& message) = 0;
+    virtual void receive(const std::string& message, const std::string& from) = 0;
+
+    std::string getName() const { return name; }
+};
+
+class ConcreteUser : public User {
+public:
+    ConcreteUser(ChatMediator* med, const std::string& userName) : User(med, userName) {}
+
+    void send(const std::string& message) override {
+        std::cout << name << " sends: " << message << std::endl;
+        mediator->sendMessage(message, this);
+    }
+
+    void receive(const std::string& message, const std::string& from) override {
+        std::cout << name << " received from " << from << ": " << message << std::endl;
+    }
+};
+
+class ChatRoom : public ChatMediator {
+private:
+    std::vector<User*> users;
+
+public:
+    void addUser(User* user) {
+        users.push_back(user);
+        std::cout << user->getName() << " joined the chat room" << std::endl;
+    }
+
+    void sendMessage(const std::string& message, User* sender) override {
+        for (User* user : users) {
+            if (user != sender) {
+                user->receive(message, sender->getName());
+            }
+        }
+    }
+};
+
+// ========== 5. STATE PATTERN ==========
+// Allows object to change behavior when internal state changes
+
+class TrafficLight;
+
+class TrafficLightState {
+public:
+    virtual ~TrafficLightState() = default;
+    virtual void handle(TrafficLight* light) = 0;
+    virtual std::string getColor() const = 0;
+};
+
+class TrafficLight {
+private:
+    std::unique_ptr<TrafficLightState> currentState;
+
+public:
+    TrafficLight();
+
+    void setState(std::unique_ptr<TrafficLightState> newState) {
+        currentState = std::move(newState);
+    }
+
+    void change() {
+        std::cout << "Current: " << currentState->getColor() << " light" << std::endl;
+        currentState->handle(this);
+    }
+
+    std::string getCurrentColor() const {
+        return currentState ? currentState->getColor() : "Unknown";
+    }
+};
+
+class RedState :public TrafficLightState {
+public:
+    void handle(TrafficLight* light) override;
+    std::string getColor() const override {
+        return "Red";
+    }
+};
+class YellowState :public TrafficLightState {
+    void handle(TrafficLight* light) override;
+    std::string getColor() const override {
+        return "Yellow";
+    }
+};
+class GreenState :public TrafficLightState {
+    void handle(TrafficLight* light) override;
+    std::string getColor() const override {
+        return "Green";
+    }
+};
+
+void RedState::handle(TrafficLight* light) {
+    std::cout << "Red -> Green (Go!)" << std::endl;
+    return light->setState(make_unique<GreenState>());
+}
+void YellowState::handle(TrafficLight* light) {
+    std::cout << "Yellow -> Red (Stop!)" << std::endl;
+    return light->setState(make_unique<RedState>());
+}
+void GreenState::handle(TrafficLight* light) {
+    std::cout << "Green -> Yellow (Caution!)" << std::endl;
+    return light->setState(make_unique<YellowState>());
+}
+
+TrafficLight::TrafficLight() {
+    currentState = std::make_unique<RedState>();
+}
 
 int main()
 {
@@ -162,6 +290,23 @@ int main()
     agency.addObserver(&fox);
 
     agency.setNews("Breaking: New C++ standard released!");
+    std::cout << std::endl;
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    std::cout << "=== ITERATOR PATTERN ===" << std::endl;
+    std::cout << "Iterate through a collection without knowing its internal structure\n" << std::endl;
+
+    SimpleList<std::string> playlist;
+    playlist.add("Song 1: Bohemian Rhapsody");
+    playlist.add("Song 2: Stairway to Heaven");
+    playlist.add("Song 3: Hotel California");
+
+    std::cout << "Playing playlist:" << std::endl;
+    auto iterator = playlist.createIterator();
+    while (iterator.hasNext()) {
+        std::cout << "" << iterator.next() << std::endl;
+    }
     std::cout << std::endl;
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -184,6 +329,40 @@ int main()
     cart.setPaymentStrategy(std::make_unique<UPIPayment>("123456789@oksbi"));
     cart.checkout();
     std::cout << std::endl;
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    std::cout << "=== MEDIATOR PATTERN ===" << std::endl;
+    std::cout << "Users communicate through a chat room mediator\n" << std::endl;
+
+    ChatRoom chatRoom;
+
+    ConcreteUser alice(&chatRoom, "Alice");
+    ConcreteUser bob(&chatRoom, "Bob");
+    ConcreteUser charlie(&chatRoom, "Charlie");
+
+    chatRoom.addUser(&alice);
+    chatRoom.addUser(&bob);
+    chatRoom.addUser(&charlie);
+
+    std::cout << std::endl;
+    alice.send("Hello everyone!");
+    bob.send("Hey Alice! How are you?");
+    charlie.send("Good morning folks!");
+    std::cout << std::endl;
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    std::cout << "=== STATE PATTERN ===" << std::endl;
+    std::cout << "Traffic light changes behavior based on its current state\n" << std::endl;
+
+    TrafficLight light;
+
+    std::cout << "Traffic light cycle:" << std::endl;
+    for (int i = 0; i < 6; i++) {
+        light.change();
+        std::cout << "-> Now showing: " << light.getCurrentColor() << " light\n" << std::endl;
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
