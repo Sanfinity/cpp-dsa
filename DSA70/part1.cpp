@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 
 using namespace std;
 
@@ -49,6 +50,22 @@ std::vector<int> findDisappearedNumbers(std::vector<int>& nums) {
     return results;
 }
 
+// Given an array of integers nums and an integer target, 
+// return the indices of the two numbers such that they add up to target.
+// Time Complexity: O(n) | Space Complexity : O(n)
+std::vector<int> twoSum(std::vector<int>& nums, int target) {
+    std::unordered_map<int, int> map; // value -> index
+
+    for (int i = 0; i < nums.size(); i++) {
+        auto compliment = target - nums[i];
+        if (map.count(compliment)) {
+            return {map[compliment],i};
+        }
+        map[nums[i]] = i;
+    }
+}
+
+
 int main()
 {
     //vector<int> nums = { 1, 2, 3, 4 };
@@ -57,12 +74,21 @@ int main()
     //vector<int> nums = {3, 0, 1};
     //std::cout << "Missing number: " << missingNumber(nums) << std::endl;
 
-    std::vector<int> nums = { 4,3,2,7,8,2,3,1 };
-    std::vector<int> result = findDisappearedNumbers(nums);
+    //std::vector<int> nums = { 4,3,2,7,8,2,3,1 };
+    //std::vector<int> result = findDisappearedNumbers(nums);
 
-    std::cout << "Missing numbers: ";
-    for (int num : result) {
-        std::cout << num << " ";
+    //std::cout << "Missing numbers: ";
+    //for (int num : result) {
+    //    std::cout << num << " ";
+    //}
+
+    std::vector<int> nums = { 2, 7, 11, 15 };
+    int target = 17;
+
+    std::vector<int> result = twoSum(nums, target);
+    std::cout << "Indices: ";
+    for (int idx : result) {
+        std::cout << idx << " ";
     }
 
     return 0;
